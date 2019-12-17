@@ -33,13 +33,13 @@ from sunpy.time import TimeRange
 from attrdict import AttrDict
 from astropy.constants import k_B,h
 
-import sys
-sys.path.append("/home/fer/Documents/myPYTHONstuff/modules/")
-from mapping import *
-from other import *
+#import sys
+#sys.path.append("/home/fer/Documents/myPYTHONstuff/modules/")
+#from mapping import *
+#from other import *
 
 def hola():
-    print 'Hello World, this is my calibration module of SST data'
+    print('Hello World, this is my calibration module of SST raw data saved in IDL SAVE file type')
     return
 
 def integrador(myarray,janela,tipo):
@@ -96,7 +96,7 @@ def obsolete_time(rs,yyyy,mm,dd):
     dts = map(datetime.fromtimestamp,thatday)
     ti = dates.date2num(dts)
     return ti,dts
-
+'''
 def lee2sst(fileplace1,fileplace2):
     """
     Lee archivos '/path/to/file/bi1yymmdd.save' o
@@ -105,7 +105,7 @@ def lee2sst(fileplace1,fileplace2):
     tos (biors) de dos archivos consecutivos y concatenados.
     """
     try:
-	pathplusfile1,pathplusfile2 = fileplace1,fileplace2
+	#pathplusfile1,pathplusfile2 = fileplace1,fileplace2
 	lenstr = len(pathplusfile1)
 	biors1 = readsav(pathplusfile1,python_dict=False,verbose=False)
 	biors2 = readsav(pathplusfile2,python_dict=False,verbose=False)
@@ -122,9 +122,9 @@ def lee2sst(fileplace1,fileplace2):
         dts = map(datetime.fromtimestamp,thatday)
         fds = dates.date2num(dts)
     except:
-        print 'no implementado aun'
+        print('no implementado aun')
     return fds,biors12
-
+'''
 def lee2oldsst(fileplace1,fileplace2):
     """
     Lee archivos '/path/to/file/bi1yymmdd.save' o
@@ -249,13 +249,13 @@ def modos(biors):
         tama = np.size(xx)
         if (tama >  0):
             opmodict[str(i)] = tama
-            print i,tama
+            print( i,tama)
     cc = np.where(biors['target']/32==1)
     hh = np.where(biors['target']/32==2)
     if (np.size(cc) > 0):
-        print 'cold source'
+        print( 'cold source')
     if (np.size(hh) > 0):
-        print 'hot source'
+        print( 'hot source')
     return opmodict
 
 def taxobi(fdsh,bh):
@@ -306,7 +306,7 @@ def taxobi(fdsh,bh):
              ,'stltime':stlfds,'stlval':stladc\
              ,'unktime':unkfds,'unkval':unkadc\
              }
-    print np.size(taxdict['colval']),np.size(taxdict['hotval'])
+    print(np.size(taxdict['colval']),np.size(taxdict['hotval']))
     return taxdict
 
 def taxonomia(fdsh,bh):
@@ -357,7 +357,7 @@ def taxonomia(fdsh,bh):
              ,'stltime':stlfds,'stlval':stladc\
              ,'unktime':unkfds,'unkval':unkadc\
              }
-    print np.size(taxdict['colval']),np.size(taxdict['hotval'])
+    print(np.size(taxdict['colval']),np.size(taxdict['hotval']))
     return taxdict
 
 def colecta(taxdict):
@@ -488,7 +488,7 @@ def pseudocalbi(prdict,rsHH):
     y = prdict['stat02']
     (coeffs2, residuals2, rank2, sing_vals2) = np.linalg.lstsq(A, y, rcond=None)
     #a,b,c = coeffs2[0],coeffs2[1],coeffs2[2]
-    print coeffs2
+    print(coeffs2)
     f2 = np.poly1d(coeffs2)
     rsHH['adc'][:,1] = (rsHH['adc'][:,1]-coeffs2[1])/coeffs2[0]
     rsHH['adc'][:,1] -=np.nanmin(rsHH['adc'][:,1])
@@ -496,7 +496,7 @@ def pseudocalbi(prdict,rsHH):
     y = prdict['stat03']
     (coeffs3, residuals3, rank3, sing_vals3) = np.linalg.lstsq(A, y, rcond=None)
     #a,b,c = coeffs3[0],coeffs3[1],coeffs3[2]
-    print coeffs3
+    print(coeffs3)
     f3 = np.poly1d(coeffs3)
     rsHH['adc'][:,2] = (rsHH['adc'][:,2]-coeffs3[1])/coeffs3[0]
     rsHH['adc'][:,2] -=np.nanmin(rsHH['adc'][:,2])
@@ -504,7 +504,7 @@ def pseudocalbi(prdict,rsHH):
     y = prdict['stat04']
     (coeffs4, residuals4, rank4, sing_vals4) = np.linalg.lstsq(A, y, rcond=None)
     #a,b,c = coeffs4[0],coeffs4[1],coeffs4[2]
-    print coeffs4
+    print(coeffs4)
     f4 = np.poly1d(coeffs4)
     rsHH['adc'][:,3] = (rsHH['adc'][:,3]-coeffs4[1])/coeffs4[0]
     rsHH['adc'][:,3] -=np.nanmin(rsHH['adc'][:,3])
@@ -519,7 +519,7 @@ def pseudocalbi(prdict,rsHH):
     #eixos Y
     y = prdict['stat05']
     (coeffs5, residuals5, rank5, sing_vals5) = np.linalg.lstsq(A, y, rcond=None)
-    print coeffs5
+    print(coeffs5)
     f5 = np.poly1d(coeffs5)
     rsHH['adc'][:,4] = (rsHH['adc'][:,4]-coeffs5[1])/coeffs5[0]
     rsHH['adc'][:,4] -=np.nanmin(rsHH['adc'][:,4])
@@ -545,7 +545,7 @@ def pseudocal(prdict,rsHH):
     
     y = prdict['stat02']
     (coeffs2, residuals2, rank2, sing_vals2) = np.linalg.lstsq(A, y, rcond=None)
-    print coeffs2
+    print(coeffs2)
     f2 = np.poly1d(coeffs2)
     aux2  = rsHH['adcval'][:,1].astype(float)
     aux2 = (aux2-coeffs2[1])/coeffs2[0]
@@ -554,7 +554,7 @@ def pseudocal(prdict,rsHH):
     
     y = prdict['stat03']
     (coeffs3, residuals3, rank3, sing_vals3) = np.linalg.lstsq(A, y, rcond=None)
-    print coeffs3
+    print(coeffs3)
     f3 = np.poly1d(coeffs3)
     aux3  = rsHH['adcval'][:,2].astype(float)
     aux3 = (aux3-coeffs3[1])/coeffs3[0]
@@ -563,7 +563,7 @@ def pseudocal(prdict,rsHH):
 
     y = prdict['stat04']
     (coeffs4, residuals4, rank4, sing_vals4) = np.linalg.lstsq(A, y, rcond=None)
-    print coeffs4
+    print(coeffs4)
     f4 = np.poly1d(coeffs4)
     aux4  = rsHH['adcval'][:,3].astype(float)
     aux4 = (aux4-coeffs4[1])/coeffs4[0]
@@ -583,7 +583,7 @@ def pseudocal(prdict,rsHH):
     
     y = prdict['stat05']
     (coeffs5, residuals5, rank5, sing_vals5) = np.linalg.lstsq(A, y, rcond=None)
-    print coeffs5
+    print(coeffs5)
     f5 = np.poly1d(coeffs5)
     aux5  = rsHH['adcval'][:,4].astype(float)
     aux5 = (aux5-coeffs5[1])/coeffs5[0]
@@ -613,7 +613,7 @@ def tempcalbi(iicoHH,rsHH,t1=15.,t2_212=150.,t2_405=150.,ice=[1,1,1,1,1,1]):
         t2xADC1 = ice[i]*t2_212*cool_list[1][i]
         m212 = (ice[i]*t2_212-t1)/ADC2_ADC1
         b212 = (t1xADC2-t2xADC1)/ADC2_ADC1
-        print 1./m212,b212
+        print(1./m212,b212)
         tempval  = 1.0*rsHH['adc'][:,i]*m212+b212
         minival = np.nanmin(tempval)
         rsHH['adc'][:,i] = tempval#-minival#np.where(tempval>0,tempval,0)
@@ -626,7 +626,7 @@ def tempcalbi(iicoHH,rsHH,t1=15.,t2_212=150.,t2_405=150.,ice=[1,1,1,1,1,1]):
         m405 = (ice[i]*t2_405-t1)/ADC2_ADC1
         b405 = (t1xADC2-t2xADC1)/ADC2_ADC1
         #for i  in range(4,6):
-        print 1./m405,b405
+        print(1./m405,b405)
         otempval  = 1.0*rsHH['adc'][:,i]*m405+b405
         rsHH['adc'][:,i] = otempval####np.where(otempval>0,otempval,0)#rsHH['adcval'][:,i]*m405[i]+b405[i]
     return rsHH
@@ -657,7 +657,7 @@ def tempcal(iicoHH,rsHH,t1=15.,t2_212=150.,t2_405=150.,ice=[1,1,1,1,1,1],tbase=6
         t2xADC1 = ice[i]*t2_212*cool_list[1][i]
         m212 = (ice[i]*t2_212-t1)/ADC2_ADC1
         b212 = (t1xADC2-t2xADC1)/ADC2_ADC1
-        print 1./m212,b212
+        print(1./m212,b212)
         tempval  = 1.0*rsHH['adcval'][:,i]*m212+b212
         #minval = np.nanmin(tempval)
         rsHH['adcval'][:,i] = tempval###-minval+tbase####np.where(tempval>0,tempval,0)
@@ -669,7 +669,7 @@ def tempcal(iicoHH,rsHH,t1=15.,t2_212=150.,t2_405=150.,ice=[1,1,1,1,1,1],tbase=6
         m405 = (ice[i]*t2_405-t1)/ADC2_ADC1
         b405 = (t1xADC2-t2xADC1)/ADC2_ADC1
         #for i  in range(4,6):
-        print 1./m405,b405
+        print(1./m405,b405)
         otempval  = 1.0*rsHH['adcval'][:,i]*m405+b405
         #ominval = np.nanmin(otempval)
         rsHH['adcval'][:,i] = otempval###-ominval+tbase####np.where(otempval>0,otempval,0)#rsHH['adcval'][:,i]*m405[i]+b405[i]
@@ -772,9 +772,9 @@ def opacalcbi(iiitaHH,rsHH,tbkg=30.,tau212=0.33,tsky212=280.,tau405=1.67,tsky405
         try:
             popt212, pcov212 = curve_fit(skytaufunc, x, y212, [tbkg,tsky212,tau212],maxfev=600)
             result212[i,0],result212[i,1],result212[i,2]= popt212[2],popt212[1],popt212[0]
-            print 'ch',i+1,result212[i,0],result212[i,1],result212[i,2]
+            print('ch',i+1,result212[i,0],result212[i,1],result212[i,2])
         except RuntimeError:
-            print 'ch',i+1,'Erro  no ajuste'
+            print('ch',i+1,'Erro  no ajuste')
     result405 = np.zeros((2,3))
     for i in range(4,6):
         y405 = iiitaHH['tauval'][:,i]
@@ -785,9 +785,9 @@ def opacalcbi(iiitaHH,rsHH,tbkg=30.,tau212=0.33,tsky212=280.,tau405=1.67,tsky405
         try:
             popt405,pcov405 =  curve_fit(skytaufunc, x, y405, [tbkg,tsky405,tau405],maxfev=600)
             result405[i-4,0],result405[i-4,1],result405[i-4,2]= popt405[2],popt405[1],popt405[0]
-            print 'ch',i+1,result405[i-4,0],result405[i-4,1],result405[i-4,2]
+            print('ch',i+1,result405[i-4,0],result405[i-4,1],result405[i-4,2])
         except RuntimeError:
-            print 'ch',i+1,'Erro no ajuste'
+            print('ch',i+1,'Erro no ajuste')
     return result212,result405
 
 def opacalc(iiitaHH,rsHH,tbkg=30.,tau212=0.33,tsky212=280.,tau405=1.67,tsky405=265.):
@@ -813,9 +813,9 @@ def opacalc(iiitaHH,rsHH,tbkg=30.,tau212=0.33,tsky212=280.,tau405=1.67,tsky405=2
         try:
             popt212, pcov212 = curve_fit(skytaufunc, x, y212, [tbkg,tsky212,tau212],maxfev=600)
             result212[i,0],result212[i,1],result212[i,2]= popt212[2],popt212[1],popt212[0]
-            print 'ch',i+1,result212[i,0],result212[i,1],result212[i,2]
+            print('ch',i+1,result212[i,0],result212[i,1],result212[i,2])
         except RuntimeError:
-            print 'ch',i+1,'Erro  no ajuste'
+            print('ch',i+1,'Erro  no ajuste')
     result405 = np.zeros((2,3))
     for i in range(4,6):
         y405 = iiitaHH['tauval'][:,i]
@@ -826,9 +826,9 @@ def opacalc(iiitaHH,rsHH,tbkg=30.,tau212=0.33,tsky212=280.,tau405=1.67,tsky405=2
         try:
             popt405,pcov405 =  curve_fit(skytaufunc, x, y405, [tbkg,tsky405,tau405],maxfev=600)
             result405[i-4,0],result405[i-4,1],result405[i-4,2]= popt405[2],popt405[1],popt405[0]
-            print 'ch',i+1,result405[i-4,0],result405[i-4,1],result405[i-4,2]
+            print('ch',i+1,result405[i-4,0],result405[i-4,1],result405[i-4,2])
         except RuntimeError:
-            print 'ch',i+1,'Erro no ajuste'
+            print('ch',i+1,'Erro no ajuste')
     return result212,result405
 
 def opadescbi(rsHH,opa212=0.33,ts212=280.,opa405=1.67,ts405=265.0):
@@ -845,7 +845,7 @@ def opadescbi(rsHH,opa212=0.33,ts212=280.,opa405=1.67,ts405=265.0):
     meanele = np.mean(rsHH['elepos']/1000.) 	
     max_ele = np.max(rsHH['elepos']/1000.)
     stadele = np.std(rsHH['elepos']/1000.)
-    print min_ele,max_ele,meanele,stadele
+    print(min_ele,max_ele,meanele,stadele)
     rsHH['elepos'][rsHH['elepos']==0]=1000.
     trkmsk=((rsHH['opmode']==0) | (rsHH['opmode']==2) | (rsHH['opmode']==3) | (rsHH['opmode']==5) | (rsHH['opmode']==9))  & ((rsHH['target']/32!=1) & (rsHH['target']/32!=2))
     varele = (rsHH['elepos']/1000.)
@@ -911,7 +911,7 @@ def opadescsimple(rsHH,opa212=0.33,ts212=280.,opa405=1.67,ts405=265.0):
     meanele = np.mean(rsHH['elepos']/1000.) 	
     max_ele = np.max(rsHH['elepos']/1000.)
     stadele = np.std(rsHH['elepos']/1000.)
-    print min_ele,max_ele,meanele,stadele
+    print(min_ele,max_ele,meanele,stadele)
     rsHH['elepos'][rsHH['elepos']==0]=1000.
     trkmsk=((rsHH['opmode']==0) | (rsHH['opmode']==2) | (rsHH['opmode']==5) | (rsHH['opmode']==9))  & ((rsHH['target']/32!=1) & (rsHH['target']/32!=2))
     varele = (rsHH['elepos']/1000.)
@@ -976,7 +976,7 @@ def opadesc(rsHH,opa212=0.33,ts212=280.,opa405=1.67,ts405=265.0,deltat212=0.,del
     min_ele = np.min(rsHH['elepos']/1000.)
     max_ele = np.max(rsHH['elepos']/1000.)
     stadele = np.std(rsHH['elepos']/1000.)
-    print min_ele,max_ele,stadele
+    print (min_ele,max_ele,stadele)
     ###############################################
     scantauori=rsHH['adcval'][rsHH['opmode']==10,:]
     scanintori=rsHH['adcval'][rsHH['opmode']==9,:]
@@ -1020,7 +1020,7 @@ def efiefe(ivtaHH,rsHH,corr=0):
     pectivamente segundo Silva et al 2005.
     '''
     trkmsk=((rsHH['opmode']==0) | (rsHH['opmode']==2) | (rsHH['opmode']==5) | (rsHH['opmode']==9)) & ((rsHH['target']/32!=1) & (rsHH['target']/32!=2))
-    print len(trkmsk)
+    print( len(trkmsk))
     beff = np.zeros(shape=(6,1),dtype=float)
     for i  in range(0,4):
         infe212 = np.nanmin(ivtaHH['scnval'][:,i])
@@ -1031,10 +1031,10 @@ def efiefe(ivtaHH,rsHH,corr=0):
         elif corr==0:
             supe212 = supe212trk 
         else:
-            print "Are you in drugs?"
+            print("Are you in drugs?")
         efic212 = (supe212-infe212)/(5900.)
         beff[i] = efic212
-        print efic212
+        print(efic212)
         rsHH['adcval'][trkmsk,i] -= infe212
         rsHH['adcval'][trkmsk,i] = 5900. + rsHH['adcval'][trkmsk,i]/efic212 
     for i in range(4,6):
@@ -1046,13 +1046,13 @@ def efiefe(ivtaHH,rsHH,corr=0):
         elif corr==0:
             supe405 = supe405trk
         else:
-            print "No option"
+            print("No option")
         efic405 = (supe405-infe405)/(5100.)
         beff[i] = efic405
-        print efic405
+        print(efic405)
         rsHH['adcval'][trkmsk,i] -= infe405
         rsHH['adcval'][trkmsk,i] = 5100. + rsHH['adcval'][trkmsk,i]/efic405 
-    print 'Quiet-Sun brightness temperature 5900K@212GHz,5100K@405GHz, Silva et al (2005)'
+    print('Quiet-Sun brightness temperature 5900K@212GHz,5100K@405GHz, Silva et al (2005)')
     return rsHH,beff
 
 def beameffmap(ivtaHH,rsHH,corr=0):
@@ -1075,9 +1075,9 @@ def beameffmap(ivtaHH,rsHH,corr=0):
             supe212 = supe212trk #np.where(supe212scn >= supe212trk,supe212scn,supe212trk)
         efic212 = (supe212)/(6344.)
         beff[i] = efic212
-        print efic212
+        print (efic212)
         cond_1 = (rsHH['opmode'] == 0) | (rsHH['opmode'] == 2) | (rsHH['opmode'] == 5) | (rsHH['adcval'][:,i] >= supe212/2.)
-        cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
+        #cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
         cond = cond_1 & cond_2
         rsHH['adcval'][:,i] = np.where(cond, rsHH['adcval'][:,i]/efic212, rsHH['adcval'][:,i])
     for i in range(4,6):
@@ -1092,9 +1092,9 @@ def beameffmap(ivtaHH,rsHH,corr=0):
             supe405 = supe405trk
         efic405 = (supe405)/(5858.)
         beff[i] = efic405
-        print efic405
+        print(efic405)
         cond_1 = (rsHH['opmode'] == 0) | (rsHH['opmode'] == 2) | (rsHH['opmode'] == 5) | (rsHH['adcval'][:,i] >= supe405/2.)
-        cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
+        #cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
         cond = cond_1 & cond_2
         rsHH['adcval'][:,i] = np.where(cond, rsHH['adcval'][:,i]/efic405, rsHH['adcval'][:,i])
     for i in range(0,4):
@@ -1123,9 +1123,9 @@ def beameffrdm(ivtaHH,rsHH,corr=0):
             supe212 = supe212trk #np.where(supe212scn >= supe212trk,supe212scn,supe212trk)
         efic212 = (supe212)/(6344.)
         beff[i] = efic212
-        print efic212
+        print(efic212)
         cond_1 = (rsHH['opmode'] == 0) | (rsHH['opmode'] == 2) | (rsHH['opmode'] == 5) | (rsHH['adcval'][:,i] >= supe212/2.)
-        cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
+        #cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
         cond = cond_1 & cond_2
         rsHH['adcval'][:,i] = np.where(cond, rsHH['adcval'][:,i]/efic212, rsHH['adcval'][:,i])
     for i in range(4,6):
@@ -1140,9 +1140,9 @@ def beameffrdm(ivtaHH,rsHH,corr=0):
             supe405 = supe405trk
         efic405 = (supe405)/(5858.)
         beff[i] = efic405
-        print efic405
+        print (efic405)
         cond_1 = (rsHH['opmode'] == 0) | (rsHH['opmode'] == 2) | (rsHH['opmode'] == 5) | (rsHH['adcval'][:,i] >= supe405/2.)
-        cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
+        #cond_2 = (rsHH['target']/32 <> 1) & (rsHH['target']/32 <> 2)
         cond = cond_1 & cond_2
         rsHH['adcval'][:,i] = np.where(cond, rsHH['adcval'][:,i]/efic405, rsHH['adcval'][:,i])
     for i in range(0,4):
@@ -1582,7 +1582,7 @@ def  aarcalc(rs,rel,semilado,visrad):
     for nume in range(0,6):
         x2 = rs['opmode'] == 2 # 3 es el tag que describe el mapa radial
         newx2 = ((rs['time'] >= np.min(rs['time'][x2])) & (rs['time'] <= np.max(rs['time'][x2])))
-        dif2x2newx2 = np.where(x2 <> newx2)
+        #dif2x2newx2 = np.where(x2 <> newx2)
         x2 = newx2
         xoff,yoff = rs['x_off'][x2],rs['y_off'][x2] # de los datos originales, que luegos seran
         veclen = len(xoff) # longitud/tamanho del vector posicion
@@ -1662,8 +1662,7 @@ def  aarcalc(rs,rel,semilado,visrad):
         plot_data_circle(xlist[nfifty],ylist[nfifty],trasxbeampos, trasybeampos, R2real)
         '''
         DeltaX,DeltaY = 3.6*(trasxbeampos-semilado),3.6*(trasybeampos-semilado)
-        print '|',nume+1,'|',"%.2f"%DeltaX,'|',"%.2f"%DeltaY,'|',\
-        "%.2f"%myresidualindex,'|',"%.2f"%R2realsec,'|',"%.3f"%RelR2,'|'
+        print('|',nume+1,'|',"%.2f"%DeltaX,'|',"%.2f"%DeltaY,'|',"%.2f"%myresidualindex,'|',"%.2f"%R2realsec,'|',"%.3f"%RelR2,'|')
     return
 
 def J(freq_ghz,T_K,print_error=False,h=h,k_B=k_B):
@@ -1676,7 +1675,7 @@ def J(freq_ghz,T_K,print_error=False,h=h,k_B=k_B):
     esrt = nume/deno
     percent_error = 100*np.abs(T_K-esrt)/T_K
     if print_error:
-        print '%3.1f'%percent_error
+        print('%3.1f'%percent_error)
     return esrt
 
 def etamb_w_moon(freqghz,Ta_star,T_K,theta_mb):
@@ -1689,3 +1688,4 @@ def etamb_w_moon(freqghz,Ta_star,T_K,theta_mb):
     deno_eta_mb = J(freqghz,T_K) -J(freqghz,2.79)
     etamb = (nume_eta_mb/deno_eta_mb)*polemic
     return etamb
+
